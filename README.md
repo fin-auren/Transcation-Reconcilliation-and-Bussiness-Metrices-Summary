@@ -57,4 +57,33 @@ To power downstream reporting and operational workflows, the following structure
 3.  `payment_method_breakdown.csv` — Volume and GMV metrics sliced by payment options.
 4.  `category_breakdown.csv` — Performance metrics sliced by merchant categories.
 5.  `region_breakdown.csv` — Sales performance mapped across geographical zones.
-6.  `discrepancies.csv` — Complete line-item audit list detailing every unmatched transaction, its root cause, severity, and suggested action items.
+6.  `discrepancies.csv` — Complete line-item audit list detailing every unmatched transaction, its root cause, severity, and suggested action
+   items.
+
+
+```markdown
+# Proposed Notebook Name
+**`Payment_Reconciliation_Analysis.ipynb`**
+
+---
+
+# Notebook Summary: Payment Reconciliation Analysis
+
+This notebook demonstrates a complete end-to-end workflow for reconciling internal transaction ledgers against external payment gateway exports. It simulates typical discrepancies found in production environments and implements robust data-matching algorithms to detect them.
+
+## 1. Data Generation & Setup
+* **Internal Ledger Simulation (`internal_ledger`):** Generates 100 transaction records containing transaction IDs (`TXN01001` onwards), random typical e-commerce transaction amounts, randomized transaction timestamps spanning 3 days, and realistic payment method weights (UPI 50%, Card 30%, NetBanking 10%, Wallet 10%).
+* **Gateway Export Simulation (`gateway_export`):** Created by modifying a copy of the internal ledger to introduce real-world anomalies.
+
+## 2. Simulated Issues & Discrepancies
+Four major data discrepancy issues are intentionally introduced into the dataset for analysis:
+* **Issue 1 (Missing Transactions in Gateway):** 5% of transactions (5 records worth **₹7,795**) present in the ledger are removed from the gateway export.
+* **Issue 2 (Amount Mismatch):** 3% of common transactions are modified with arbitrary processing fees deducted, leaving a discrepancy of **₹250** between the systems.
+* **Issue 3 (Extra Transactions in Gateway):** 2 system-bug transactions (`TXN99901`, `TXN99902`) totaling **₹4,598** are added to the gateway but are absent from the internal ledger.
+* **Issue 4 (Status Difference):** 2 transactions successfully logged in our internal ledger are changed to `FAILED` in the gateway dataset.
+
+## 3. Discrepancy Reconciliation Engine
+* Hand-coded step-by-step set operations and pandas merge/filtering processes are first utilized to isolate and clean up data for the report.
+* All the findings are unified into a final **Reconciliation Report** sorted by absolute monetary impact.
+* **Reusable Helper Function (`reconcile_payments`):** The notebook concludes by packing all the manual lookup logic into a highly flexible, reusable utility function. It takes any ledger and gateway DataFrame to automatically yield a detailed status dictionary containing issue counts, risk valuations, and filtered mismatch reports.
+```
