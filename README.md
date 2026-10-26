@@ -61,11 +61,8 @@ To power downstream reporting and operational workflows, the following structure
    items.
 
 
-```markdown
-# Proposed Notebook Name
-**`Payment_Reconciliation_Analysis.ipynb`**
 
----
+**`Payment_Reconciliation_Analysis.ipynb`**
 
 # Notebook Summary: Payment Reconciliation Analysis
 
@@ -86,4 +83,3 @@ Four major data discrepancy issues are intentionally introduced into the dataset
 * Hand-coded step-by-step set operations and pandas merge/filtering processes are first utilized to isolate and clean up data for the report.
 * All the findings are unified into a final **Reconciliation Report** sorted by absolute monetary impact.
 * **Reusable Helper Function (`reconcile_payments`):** The notebook concludes by packing all the manual lookup logic into a highly flexible, reusable utility function. It takes any ledger and gateway DataFrame to automatically yield a detailed status dictionary containing issue counts, risk valuations, and filtered mismatch reports.
-```
